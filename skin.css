@@ -1,0 +1,48 @@
+/* Deepcel Workbook — design tokens + base resets (v2 refactor).
+   Kept minimal: chrome styling lives in patches.css. */
+
+:root {
+  --deepcel-green: #217346;
+  --deepcel-green-dark: #185c37;
+  --deepcel-green-soft: #e2f0d9;
+  --deepcel-grid: #c9c9c9;
+  --deepcel-grid-strong: #a6a6a6;
+  --deepcel-sheet: #fff;
+  --deepcel-header: #f3f3f3;
+  --deepcel-ink: #202020;
+  --deepcel-muted: #666;
+  --deepcel-selection: #107c41;
+  --deepcel-cell-width: 60px;
+  --deepcel-row-height: 24px;
+  --deepcel-sidebar-offset: 0px;
+  --deepcel-formula-height: 28px;
+  --deepcel-ribbon-height: 202px;
+  --deepcel-chrome-height: 202px;
+  --dsw-font-family: Aptos, Calibri, "Segoe UI", "Microsoft YaHei", sans-serif;
+  --ds-font-family-code: Consolas, "SFMono-Regular", monospace;
+  --dsw-alias-bg-base: #fff;
+  --dsw-alias-bg-layer-1: #fafafa;
+  --dsw-alias-bg-layer-2: #f3f3f3;
+  --dsw-alias-bg-layer-3: #e9e9e9;
+  --dsw-alias-bg-overlay: #fff;
+  --dsw-alias-border-l1: #e1e1e1;
+  --dsw-alias-border-l2: #cfcfcf;
+  --dsw-alias-border-l3: #b8b8b8;
+  --dsw-alias-border-l4: #8f8f8f;
+  --dsw-alias-brand-primary: #217346;
+  --dsw-alias-brand-text: #185c37;
+  --dsw-alias-button-primary-fill: #217346;
+  --dsw-alias-button-primary-hover: #185c37;
+  --dsw-alias-label-primary: #202020;
+  --dsw-alias-label-secondary: #535353;
+  --dsw-alias-label-tertiary: #757575;
+  --dsw-alias-label-caption: #858585;
+  --dsw-alias-interactive-bg-hover: #edf5f0;
+  --dsw-alias-interactive-bg-hover-solid: #e2f0d9;
+  --dsw-alias-interactive-bg-active: #fff2a8;
+}
+
+html[data-dsh-skin='deepcel'] body {
+  font-family: var(--dsw-font-family);
+  background: var(--deepcel-sheet);
+}

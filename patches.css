@@ -1,0 +1,384 @@
+/* ============================================================================
+ * Deepcel Workbook — clean Excel chrome (v2 refactor)
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+ * Fixed chrome layout: title bar, tabs, ribbon, formula — stack vertically.
+ * ------------------------------------------------------------------------- */
+.deepcelChrome {
+  --deepcel-green: #217346;
+  --deepcel-green-dark: #185c37;
+  --deepcel-green-soft: #e2f0d9;
+  --deepcel-grid: #c9c9c9;
+  --deepcel-grid-strong: #a6a6a6;
+  --deepcel-ink: #202020;
+  --deepcel-muted: #666;
+  --deepcel-sheet: #fff;
+  --deepcel-header: #f3f3f3;
+  --deepcel-selection: #107c41;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1000000;
+  display: block;
+  background: #fff;
+  color: var(--deepcel-ink);
+  font: 12px/1 Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------------------------------------------------------------------------
+ * Title bar — Excel green.
+ * ------------------------------------------------------------------------- */
+.deepcelTitleBar {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  background: var(--deepcel-green);
+  color: #fff;
+  padding: 0 8px;
+  gap: 6px;
+}
+
+.deepcelDocTitle {
+  flex: 1 1 auto;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.deepcelAccount {
+  flex: 0 0 auto;
+  font-size: 11px;
+  padding: 0 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+
+.deepcelQat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  flex: 0 0 auto;
+}
+
+.deepcelQat .deepcelCmd,
+.deepcelQat .deepcelCmdLg {
+  height: 22px;
+  width: 22px;
+  min-width: 22px;
+  color: #fff !important;
+}
+
+.deepcelQat .deepcelCmd span,
+.deepcelQat .deepcelCmdLg span {
+  display: none !important;
+}
+
+.deepcelQat .deepcelCmd svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Tabs — green strip, active tab white.
+ * ------------------------------------------------------------------------- */
+.deepcelTabs {
+  display: flex;
+  align-items: stretch;
+  height: 26px;
+  background: var(--deepcel-green);
+  border-bottom: 1px solid var(--deepcel-green-dark);
+}
+
+.deepcelTab {
+  appearance: none;
+  flex: 0 0 auto;
+  min-width: 48px;
+  height: 26px;
+  padding: 0 12px;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  font: 400 12px/26px Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 4px 4px 0 0;
+}
+
+.deepcelTab:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.deepcelTab[data-active] {
+  background: #fff;
+  color: var(--deepcel-green-dark);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+ * Ribbon — grouped command row, ~96px, horizontally scrollable.
+ * ------------------------------------------------------------------------- */
+.deepcelRibbon {
+  display: flex;
+  align-items: stretch;
+  height: 96px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #fff;
+  border-bottom: 1px solid var(--deepcel-grid-strong);
+}
+
+.deepcelGroup {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  min-width: 78px;
+  height: 96px;
+  box-sizing: border-box;
+  border-right: 1px solid var(--deepcel-grid);
+}
+
+.deepcelGroupBody {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  min-height: 0;
+  gap: 2px;
+  padding: 4px 6px 0;
+}
+
+.deepcelGroupStack {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  max-height: 72px;
+  gap: 0 2px;
+}
+
+.deepcelGroupTitle {
+  flex: 0 0 18px;
+  height: 18px;
+  padding: 0 8px;
+  color: #666;
+  font: 400 11px/18px Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.deepcelCmd {
+  appearance: none;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  height: 22px;
+  margin: 0;
+  padding: 0 6px;
+  overflow: hidden;
+  color: var(--deepcel-ink);
+  font: 400 11px/1 Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  white-space: nowrap;
+  background: transparent;
+  border: 0;
+  border-radius: 2px;
+  cursor: default;
+}
+
+.deepcelCmdLg {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  width: 52px;
+  min-width: 52px;
+  height: auto;
+  padding: 2px 4px;
+  gap: 2px;
+  text-align: center;
+}
+
+.deepcelCmd svg {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+}
+
+.deepcelCmdLg svg {
+  width: 28px;
+  height: 28px;
+}
+
+.deepcelCmd span {
+  overflow: hidden;
+  max-width: 76px;
+  text-overflow: ellipsis;
+}
+
+.deepcelCmdLg span {
+  max-width: 52px;
+  line-height: 1.15;
+  white-space: normal;
+}
+
+.deepcelCmd:hover {
+  background: var(--deepcel-green-soft);
+}
+
+.deepcelCmd[data-skin-control='new-workspace'],
+.deepcelCmd[data-skin-control='new-session'],
+.deepcelCmd[data-skin-control='settings'],
+.deepcelCmd[data-skin-control='addins'] {
+  cursor: pointer;
+}
+
+.deepcelCmd[data-skin-control='addins'] {
+  font-weight: 600;
+  color: var(--deepcel-green-dark);
+}
+
+/* ---------------------------------------------------------------------------
+ * Formula row — name box + fx + input.
+ * ------------------------------------------------------------------------- */
+.deepcelFormula {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 4px;
+  gap: 6px;
+  background: #fff;
+  border-bottom: 1px solid var(--deepcel-grid);
+}
+
+.deepcelNameCell {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 22px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--deepcel-grid-strong);
+  background: #fafafa;
+  font-size: 11px;
+  color: var(--deepcel-ink);
+}
+
+.deepcelFx {
+  flex: 0 0 20px;
+  text-align: center;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--deepcel-green-dark);
+}
+
+.deepcelFormulaInput {
+  flex: 1 1 auto;
+  height: 22px;
+  min-width: 0;
+  padding: 0 8px;
+  border: 1px solid var(--deepcel-grid-strong);
+  border-radius: 0;
+  background: #fff;
+  color: var(--deepcel-ink);
+  font: 12px/22px Consolas, 'SFMono-Regular', monospace;
+  outline: none;
+}
+
+.deepcelFormulaInput:focus {
+  border-color: var(--deepcel-selection);
+}
+
+/* ---------------------------------------------------------------------------
+ * Sidebar toggle arrow — fixed at the top, under the chrome.
+ * ------------------------------------------------------------------------- */
+.deepcelSidebarArrow {
+  position: fixed;
+  top: 30px;
+  left: 6px;
+  z-index: 1000001;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--deepcel-grid-strong);
+  background: #fff;
+  color: var(--deepcel-green-dark);
+  font: 600 12px/20px Aptos, Calibri, 'Segoe UI', sans-serif;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.deepcelSidebarArrow:hover {
+  background: var(--deepcel-green-soft);
+}
+
+/* ---------------------------------------------------------------------------
+ * Native host content sits below the fixed chrome.
+ * ------------------------------------------------------------------------- */
+html[data-dsh-skin='deepcel'] #root {
+  padding-top: var(--deepcel-chrome-height, 202px);
+}
+
+/* ---------------------------------------------------------------------------
+ * Composer: keep its crowded tool chips out of the way of the ribbon.
+ * ------------------------------------------------------------------------- */
+html[data-dsh-skin='deepcel'] [data-phase='hero'] [class*='composerStack'] [class*='tools'],
+html[data-dsh-skin='deepcel'] [data-phase='hero'] [class*='composerStack'] [class*='modes'],
+html[data-dsh-skin='deepcel'] [data-phase='hero'] [class*='composerStack'] [class*='seat'] {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Worksheet grid: painted visual layer behind the native content.
+ * ------------------------------------------------------------------------- */
+.deepcelGrid {
+  position: fixed;
+  top: var(--deepcel-chrome-height, 202px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;               /* above backgrounds, below native content (root z) */
+  pointer-events: none;     /* let native content scroll/click through */
+  background: #fff;
+  overflow: hidden;
+}
+
+.deepcelGrid .deepcelCorner {
+  background: var(--deepcel-header);
+  border-right: 1px solid var(--deepcel-grid-strong);
+  border-bottom: 1px solid var(--deepcel-grid-strong);
+  box-sizing: border-box;
+}
+
+.deepcelGridHeader {
+  box-sizing: border-box;
+  background: var(--deepcel-header);
+  border-right: 1px solid var(--deepcel-grid);
+  border-bottom: 1px solid var(--deepcel-grid);
+  font: 11px/20px Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  color: var(--deepcel-muted);
+  text-align: center;
+}
+
+.deepcelGridBody {
+  display: grid;
+  background: #fff;
+}
+
+.deepcelGridBody .deepcelCell {
+  box-sizing: border-box;
+  background: #fff;
+  border-right: 1px solid var(--deepcel-grid);
+  border-bottom: 1px solid var(--deepcel-grid);
+}

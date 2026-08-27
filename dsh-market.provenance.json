@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "source": "https://dsh-market.com",
+  "id": "deepcel",
+  "files": {
+    "skin.json": "ebdc695b116c7a74130a0a47949c2afd74f44b3643390d6331347d8f1598887a",
+    "skin.css": "075cf094fab4e28fbb4ed028eee7a95508542c9a99cfb093be2811c157927698",
+    "patches.css": "adaba06e4d3635d9a6be17ac10e008c2731afed47a895d583805f0b43a46ec1e",
+    "hooks.mjs": "be3af2ad88e49ed645d5b1dd2031257a366189ddc56e5c56267e43ce6756a511",
+    "preview/light.webp": "0af64450754120be88f5e7b25af8baf122b62a68b3e58268c93ebdb701e93e7c",
+    "preview/dark.webp": "aa418c970b5fe6c4b9dbbbafb7f8278f2e11e78c74ec6689f7bfda054b3911ee"
+  }
+}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deepcel · Excel 风格工作簿皮肤</title>
+    <style>
+      :root { --green: #217346; --dark: #185c37; --soft: #e2f0d9; --ink: #202020; --muted: #666; --line: #c9c9c9; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; background: #fff; color: var(--ink);
+        font: 16px/1.65 Aptos, Calibri, "Segoe UI", "Microsoft YaHei", sans-serif;
+      }
+      .hero {
+        background: linear-gradient(135deg, var(--green), var(--dark));
+        color: #fff; padding: 48px 24px; text-align: center;
+      }
+      .hero h1 { margin: 0 0 10px; font-size: 34px; letter-spacing: .02em; }
+      .hero p { margin: 0 auto; max-width: 640px; opacity: .92; }
+      .hero .badge {
+        display: inline-block; margin-top: 18px; padding: 6px 14px;
+        background: rgba(255,255,255,.16); border-radius: 999px; font-size: 13px;
+      }
+      .wrap { max-width: 1060px; margin: 0 auto; padding: 36px 24px; }
+      h2 { color: var(--dark); border-left: 4px solid var(--green); padding-left: 12px; margin-top: 40px; }
+      .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+      .shots figure { margin: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+      .shots img { display: block; width: 100%; height: auto; }
+      .shots figcaption { padding: 8px 12px; font-size: 13px; color: var(--muted); background: #fafafa; }
+      .feat { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 18px; }
+      .card { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; background: #fcfcfc; }
+      .card h3 { margin: 0 0 6px; font-size: 17px; color: var(--dark); }
+      .card p { margin: 0; font-size: 14px; color: #444; }
+      code { background: var(--soft); padding: 2px 6px; border-radius: 4px; font-size: .9em; }
+      .install { background: #f7f7f7; border: 1px solid var(--line); border-radius: 10px; padding: 18px; font-size: 14px; }
+      .install pre { background: #111; color: #e6e6e6; padding: 14px; border-radius: 8px; overflow-x: auto; }
+      footer { text-align: center; padding: 28px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+      @media (max-width: 720px) { .shots { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <h1>Deepcel · Excel 风格工作簿</h1>
+      <p>把 DeepSeek Harness WebUI 变成一张可识别、好用的 Excel 电子表。九大功能区分组、公式栏、工作表网格、小箭头侧栏开关，都在于让它「像 Excel，且好用」。</p>
+      <span class="badge">dsh skin-center v2 · BSD-3-Clause</span>
+    </header>
+
+    <main class="wrap">
+      <h2>界面预览</h2>
+      <div class="shots">
+        <figure><img src="../preview/light.webp" alt="浅色预览" /><figcaption>开始页 · 功能区 + 公式栏 + 网格</figcaption></figure>
+        <figure><img src="../preview/dark.webp" alt="深色预览" /><figcaption>深色主题</figcaption></figure>
+      </div>
+
+      <h2>功能特性</h2>
+      <div class="feat">
+        <div class="card"><h3>九大标签</h3><p>文件 · 开始 · 插入 · 页面布局 · 公式 · 数据 · 审阅 · 视图 · 帮助</p></div>
+        <div class="card"><h3>Excel 功能区分组</h3><p>剪贴板 / 字体 / 对齐方式 / 数字 / 样式 / 单元格 / 编辑，大命令 + 小命令堆叠，96px 不挤爆</p></div>
+        <div class="card"><h3>公式栏</h3><p>[名称框] · fx · [输入框]，输入内嵌在 fx 之后，聚焦绿色高亮</p></div>
+        <div class="card"><h3>工作表网格</h3><p>A/B/C 列 + 1/2/3 行，单元格背景，原生内容可自由滚动交互</p></div>
+        <div class="card"><h3>侧栏小箭头</h3><p>左上 ▶/◀ 一键开合 DeepSeek 原生侧边栏</p></div>
+        <div class="card"><h3>加载项 · 退出</h3><p>一键返回官方默认皮肤</p></div>
+      </div>
+
+      <h2>安装</h2>
+      <div class="install">
+        <p>在 dsh <strong>皮肤中心</strong>选择「Deepcel 工作簿」→ 应用 → 刷新。或手动放置到皮肤目录：</p>
+        <pre><code>mkdir -p ~/.dsh/skins/deepcel
+cp skin.json skin.css patches.css hooks.mjs {preview}/*.webp ~/.dsh/skins/deepcel/
+
+curl -X POST http://127.0.0.1:3080/api/skin-center/v2/active \
+  -H 'content-type: application/json' -d '{"active":"deepcel"}'</code></pre>
+      </div>
+    </main>
+
+    <footer>Deepcel · 原皮肤 Small-tailqwq/dsh-deepcel · 重构 Jensen-Yao · BSD-3-Clause</footer>
+  </body>
+</html>
