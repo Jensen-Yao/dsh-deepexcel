@@ -4,9 +4,9 @@
   "id": "deepcel",
   "files": {
     "skin.json": "c06f8d43a38d969f6da94036833d8cb084f769201f4121ab4df537a941fd4197",
-    "skin.css": "3888dfc0a8696217dcbc40dc38a83ef6fb30455386a201580d021aea1a9e8ccf",
+    "skin.css": "4aec9d3bd7e6ca8a45d796889fd061efa25f2c0d19320054259f57f61d4ddb63",
     "patches.css": "be83ea452e17d0776aadb4ed0f73eb3509cd37db364ab969c4ccd0c24fcaaa37",
-    "hooks.mjs": "e4e56f7d666ca1241be9d5cb61e5e51cee21b770f679cb7ffa794aefe7929e38",
+    "hooks.mjs": "a90c36fd3be1daa3b72e91aaf7ea466b41dae1db12619ce31a711c602a739863",
     "preview/light.webp": "0af64450754120be88f5e7b25af8baf122b62a68b3e58268c93ebdb701e93e7c",
     "preview/dark.webp": "aa418c970b5fe6c4b9dbbbafb7f8278f2e11e78c74ec6689f7bfda054b3911ee"
   }

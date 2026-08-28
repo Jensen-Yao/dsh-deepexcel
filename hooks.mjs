@@ -50,8 +50,12 @@ export default function defineSkinHooks() {
         '[data-terminal]', '[data-variant="think"]', '[class*="actions"]', '[class*="stopped"]',
       ].join(', ')
 
+      // Sidebar toggles are intentionally NOT concealed: the native
+      // expand/collapse controls (top-right and sidebar header) stay usable so
+      // the user can always open the sidebar and the panel toggles. Only the
+      // redundant duplicated entries (new session / new workspace / settings)
+      // are proxied into the workbook chrome.
       const NATIVE_ENTRY_SPECS = [
-        { labels: [], ariaLabels: ['打开侧边栏', '收起侧边栏', 'Open sidebar', 'Collapse sidebar'] },
         { labels: [], ariaLabels: ['新建会话', 'New session'] },
         { labels: [], ariaLabels: ['添加工作区', 'Add workspace'] },
         { labels: ['设置', 'Settings'], ariaLabels: ['设置', 'Settings'] },

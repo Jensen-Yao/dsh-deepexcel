@@ -529,6 +529,19 @@ body[data-ds-dark-theme] {
   pointer-events: auto;
 }
 
+/* Keep the top-right native shell controls (bottom panel / details / sidebar
+   toggles) clickable: only the projected session controls inside
+   .headerControls intercept pointers; the rest of the title row (including
+   the top-right corner) passes events through to the native UI. */
+.titleRow {
+  pointer-events: none;
+}
+
+.titleRow .headerControls,
+.titleRow .headerControls * {
+  pointer-events: auto;
+}
+
 
 
 .ribbonTab[hidden] {
