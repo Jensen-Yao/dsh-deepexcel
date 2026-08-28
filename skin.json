@@ -4,23 +4,31 @@
   "id": "deepcel",
   "name": "Deepcel 工作簿",
   "nameEn": "Deepcel Workbook",
-  "version": "0.5.0",
-  "author": "Small-tailqwq（dsh-deepcel 移植 · v2 资产版）",
-  "tagline": "Excel 多组功能区 · 小箭头侧栏 · 加载项退回原皮",
-  "description": "将 DeepSeek Harness WebUI 包成一张干净的 Excel 电子表：顶部固定 Excel 风格 chrome（标题栏 + 九大标签 + 按标签切换的多组图标功能区 + 公式栏），原生内容下移不再遮挡。开始页渲染剪贴板 / 字体 / 对齐方式 / 数字 / 样式 / 单元格 / 编辑等功能组，文件标签提供新工作区 / 新会话 / 设置 / 加载项；左上小箭头一键开合侧边栏；加载项按钮一键返回 DeepSeek 默认皮肤。v2 资产版由原 cordis 皮肤重构，经皮肤中心加载，hooks 提供纯净工作簿 chrome。",
+  "author": "Small-tailqwq",
+  "tagline": "单元格界面 · 合并输入区 · 工作簿功能区",
+  "description": "把 DeepSeek Harness WebUI 重解释为一张可工作的电子表格：窗格、消息、工具和设置成为可交互单元格，大输入区成为合并区域，工作簿标签承载多会话导航。v2 重写：声明式 skin.css/patches.css + hooks.mjs 逃生舱，由 skin-center 加载器统一作用域。",
   "tags": [
     "deepcel",
     "spreadsheet",
     "workbook",
     "grid",
-    "excel",
     "productivity"
   ],
   "accent": "#217346",
   "order": 6,
+  "version": "1.0.0",
   "preview": {
     "light": "preview/light.webp",
     "dark": "preview/dark.webp"
+  },
+  "requires": {
+    "contracts": [
+      {
+        "apiVersion": "x-org.linxin666.skin-center/v1alpha1",
+        "kind": "SkinHooks",
+        "optional": true
+      }
+    ]
   },
   "contributes": {
     "stylesheet": "skin.css",
@@ -31,8 +39,5 @@
       "entry": "hooks.mjs",
       "apiVersion": "x-org.linxin666.skin-center/v1alpha1"
     }
-  },
-  "license": "BSD-3-Clause",
-  "sourceUrl": "https://github.com/Small-tailqwq/dsh-deepcel",
-  "attribution": "Skin by Small-tailqwq (BSD-3-Clause)"
+  }
 }

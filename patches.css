@@ -1,384 +1,1028 @@
-/* ============================================================================
- * Deepcel Workbook — clean Excel chrome (v2 refactor)
- * ========================================================================== */
-
-/* ---------------------------------------------------------------------------
- * Fixed chrome layout: title bar, tabs, ribbon, formula — stack vertically.
- * ------------------------------------------------------------------------- */
-.deepcelChrome {
-  --deepcel-green: #217346;
-  --deepcel-green-dark: #185c37;
-  --deepcel-green-soft: #e2f0d9;
-  --deepcel-grid: #c9c9c9;
-  --deepcel-grid-strong: #a6a6a6;
-  --deepcel-ink: #202020;
-  --deepcel-muted: #666;
-  --deepcel-sheet: #fff;
-  --deepcel-header: #f3f3f3;
-  --deepcel-selection: #107c41;
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 1000000;
-  display: block;
-  background: #fff;
-  color: var(--deepcel-ink);
-  font: 12px/1 Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-  user-select: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
-}
-
-/* ---------------------------------------------------------------------------
- * Title bar — Excel green.
- * ------------------------------------------------------------------------- */
-.deepcelTitleBar {
-  display: flex;
-  align-items: center;
-  height: 28px;
-  background: var(--deepcel-green);
-  color: #fff;
-  padding: 0 8px;
-  gap: 6px;
-}
-
-.deepcelDocTitle {
-  flex: 1 1 auto;
-  text-align: center;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin: 0 auto;
-  pointer-events: none;
-}
-
-.deepcelAccount {
-  flex: 0 0 auto;
-  font-size: 11px;
-  padding: 0 8px;
-  border-left: 1px solid rgba(255, 255, 255, 0.35);
-  height: 100%;
-  display: inline-flex;
-  align-items: center;
-}
-
-.deepcelQat {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  flex: 0 0 auto;
-}
-
-.deepcelQat .deepcelCmd,
-.deepcelQat .deepcelCmdLg {
-  height: 22px;
-  width: 22px;
-  min-width: 22px;
-  color: #fff !important;
-}
-
-.deepcelQat .deepcelCmd span,
-.deepcelQat .deepcelCmdLg span {
-  display: none !important;
-}
-
-.deepcelQat .deepcelCmd svg {
-  width: 15px;
-  height: 15px;
-}
-
-/* ---------------------------------------------------------------------------
- * Tabs — green strip, active tab white.
- * ------------------------------------------------------------------------- */
-.deepcelTabs {
-  display: flex;
-  align-items: stretch;
-  height: 26px;
-  background: var(--deepcel-green);
-  border-bottom: 1px solid var(--deepcel-green-dark);
-}
-
-.deepcelTab {
-  appearance: none;
-  flex: 0 0 auto;
-  min-width: 48px;
-  height: 26px;
-  padding: 0 12px;
-  color: #fff;
-  background: transparent;
-  border: 0;
-  font: 400 12px/26px Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-  cursor: pointer;
-  white-space: nowrap;
-  border-radius: 4px 4px 0 0;
-}
-
-.deepcelTab:hover {
+button.quickCell:hover,
+button.quickCell[aria-pressed='true'] {
   background: rgba(255, 255, 255, 0.16);
 }
 
-.deepcelTab[data-active] {
-  background: #fff;
-  color: var(--deepcel-green-dark);
-  font-weight: 600;
-}
 
-/* ---------------------------------------------------------------------------
- * Ribbon — grouped command row, ~96px, horizontally scrollable.
- * ------------------------------------------------------------------------- */
-.deepcelRibbon {
-  display: flex;
-  align-items: stretch;
-  height: 96px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  background: #fff;
-  border-bottom: 1px solid var(--deepcel-grid-strong);
-}
 
-.deepcelGroup {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  min-width: 78px;
-  height: 96px;
-  box-sizing: border-box;
-  border-right: 1px solid var(--deepcel-grid);
-}
-
-.deepcelGroupBody {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: stretch;
-  min-height: 0;
-  gap: 2px;
-  padding: 4px 6px 0;
-}
-
-.deepcelGroupStack {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  max-height: 72px;
-  gap: 0 2px;
-}
-
-.deepcelGroupTitle {
-  flex: 0 0 18px;
-  height: 18px;
-  padding: 0 8px;
-  color: #666;
-  font: 400 11px/18px Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-  text-align: center;
+:is(.topTitle, .topMode, .topToken) {
+  display: inline-flex;
+  align-items: center;
+  appearance: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.deepcelCmd {
-  appearance: none;
+
+
+.headerControls button.topToken:hover,
+.headerControls button.topToken[aria-pressed='true'] {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+
+
+button.toolCell[aria-selected='true'] {
+  color: #185c37;
+  background: var(--deepcel-highlight-solid);
+  box-shadow: inset 0 -2px var(--deepcel-selection);
+  font-weight: 600;
+}
+
+
+
+textarea[data-deepcel-formula-input]:focus {
+  outline: 2px solid var(--deepcel-selection) !important;
+  outline-offset: -2px !important;
+}
+
+
+
+[data-deepcel-model-probing] [role='menu'] {
+  visibility: hidden !important;
+}
+
+
+
+#root [class*='frame']:has(> [class*='sidebarCol']) {
+  background: transparent;
+}
+
+
+
+[data-pane] {
+  background-color: color-mix(in srgb, var(--deepcel-sheet) 94%, transparent);
+  border-color: var(--deepcel-grid) !important;
+  box-shadow: none !important;
+}
+
+
+
+[data-pane='sidebar'] {
+  border-right: 3px solid var(--deepcel-grid-strong) !important;
+}
+
+
+
+[data-pane='details'] {
+  border-left: 3px solid var(--deepcel-grid-strong) !important;
+}
+
+
+
+[data-pane='conversation'] {
+  background: transparent;
+}
+
+
+
+[data-pane='conversation'] > div,
+[data-pane='conversation'] [class*='scrollBody'] {
+  background: transparent !important;
+}
+
+
+
+/* The row-gutter indent and ruled background only make sense while the
+   worksheet coordinates are mounted; without the chrome the sidebar keeps its
+   stock layout (declarative-only activation). */
+body[data-deepcel-chrome] [data-pane='sidebar'] > div {
   box-sizing: border-box;
-  display: inline-flex;
-  flex: 0 0 auto;
+  padding-left: var(--deepcel-row-gutter);
+  background:
+    linear-gradient(to bottom, transparent 23px, var(--deepcel-grid) 24px),
+    color-mix(in srgb, var(--deepcel-header) 94%, transparent);
+  background-size: 100% 24px;
+}
+
+
+
+[class*='sidebarCol'] > div {
+  box-sizing: border-box;
+  padding-left: 0;
+}
+
+
+
+body[data-deepcel-chrome] [data-sidebar-collapsed] [class*='sidebarCol'] {
+  visibility: hidden;
+  pointer-events: none;
+  border-right: 0;
+}
+
+
+
+body[data-deepcel-chrome] [data-sidebar-collapsed] [class*='sidebarCol'] :is([class*='_overlay'], [class*='_root']):has(> [role='dialog']) {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+
+body[data-deepcel-chrome] [data-sidebar-collapsed] [class*='centerCol'] {
+  width: calc(100% + 56px);
+  margin-left: -56px;
+}
+
+
+
+[data-pane='sidebar'] > div > :first-child,
+[data-pane='conversation'] header {
+  background: var(--deepcel-header);
+  border-bottom: 2px solid var(--deepcel-grid-strong);
+  box-shadow: none;
+}
+
+
+
+[data-pane='sidebar'] > div > button {
+  border: 2px solid var(--deepcel-selection);
+  background: var(--deepcel-sheet);
+  color: var(--deepcel-ink);
+  box-shadow: inset 0 0 0 1px var(--deepcel-sheet);
+  font-weight: 600;
+}
+
+
+
+[data-pane='sidebar'] > div > button:hover {
+  background: var(--deepcel-green-soft);
+}
+
+
+
+[role='tree'],
+[role='treeitem'] {
+  border-color: var(--deepcel-grid);
+}
+
+
+
+[role='treeitem'] {
+  min-height: var(--deepcel-row-height);
+  border-bottom: 1px solid var(--deepcel-grid);
+  background: color-mix(in srgb, var(--deepcel-sheet) 96%, transparent);
+}
+
+
+
+[role='treeitem']:hover {
+  background: color-mix(in srgb, var(--deepcel-highlight-solid) 58%, var(--deepcel-sheet));
+}
+
+
+
+[class*='groupSection'] > :is(
+  [role='treeitem']:not([aria-expanded]),
+  :has(> [role='treeitem']:not([aria-expanded]))
+) {
+  box-sizing: border-box;
+  width: calc(100% - 20px);
+  margin-left: 20px;
+}
+
+
+
+:is([aria-selected='true'], [aria-current='true'], [data-state='active'], [data-state='checked']) {
+  background: var(--deepcel-highlight-solid) !important;
+  color: var(--deepcel-ink) !important;
+  box-shadow: inset 3px 0 var(--deepcel-selection), inset 0 -1px var(--deepcel-selection) !important;
+}
+
+
+
+:is(input:not([class*='searchInput']), textarea, [contenteditable='true']):focus {
+  border: 2px solid var(--deepcel-selection) !important;
+  outline: none !important;
+  box-shadow: inset 0 0 0 1px var(--deepcel-sheet) !important;
+}
+
+
+
+[data-composer-card],
+[data-question-key] > section,
+[data-testid='todo-panel'] {
+  position: relative;
+  border: 2px solid var(--deepcel-selection) !important;
+  background:
+    linear-gradient(to right, transparent 59px, color-mix(in srgb, var(--deepcel-grid) 55%, transparent) 60px),
+    linear-gradient(to bottom, transparent 23px, color-mix(in srgb, var(--deepcel-grid) 55%, transparent) 24px),
+    var(--deepcel-sheet) !important;
+  background-size: var(--deepcel-cell-width) var(--deepcel-row-height) !important;
+  box-shadow: inset 0 0 0 1px var(--deepcel-sheet), 0 0 0 1px var(--deepcel-selection) !important;
+}
+
+
+
+[data-composer-card] :is(textarea, [contenteditable='true']) {
+  border-color: transparent !important;
+  background: color-mix(in srgb, var(--deepcel-sheet) 90%, transparent) !important;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-seat] {
+  position: relative;
+  flex: 0 0 240px !important;
+  width: 100%;
+  height: 240px;
+  margin-top: 288px;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-deepcel-flow-container],
+[data-phase='active'] [data-deepcel-workbook-flow] [data-deepcel-cellized],
+[data-phase='active'] [data-deepcel-workbook-flow] [data-deepcel-cell-container] {
+  display: contents !important;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-deepcel-composer-range] {
+  position: relative !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 2 !important;
+  grid-column: 2 / span 12;
+  grid-row: span var(--deepcel-composer-rows, 4);
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-self: stretch;
+  background: transparent !important;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [class*='composerStack'] {
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [class*='toBottomSlot'] {
+  position: absolute !important;
+  right: var(--deepcel-cell-width);
+  bottom: var(--deepcel-row-height);
+}
+
+
+
+[data-deepcel-message-range] {
+  box-sizing: border-box;
+  grid-column: 2 / span 12;
+  grid-row: span var(--deepcel-message-rows, 1);
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  content-visibility: auto;
+  contain-intrinsic-size: auto var(--deepcel-message-height, 72px);
+}
+
+
+
+[data-deepcel-message-range][data-deepcel-single-line]:not([data-deepcel-cellized]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+
+[data-deepcel-message-range][data-deepcel-single-line]:not([data-deepcel-cellized]) * {
+  margin-block: 0 !important;
+  line-height: var(--deepcel-row-height) !important;
+}
+
+
+
+[data-deepcel-cell-container] {
+  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+
+
+:is(ul, ol)[data-deepcel-cell-container] {
+  list-style-position: inside;
+}
+
+
+
+[data-deepcel-content-cell] {
+  position: relative;
+  z-index: 2;
+  display: block;
+  box-sizing: border-box;
+  grid-column: 2 / span 12;
+  grid-row: span var(--deepcel-content-cell-rows, 1);
+  align-self: stretch;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  margin: 0 !important;
+  padding: 0 6px !important;
+  border: 1px solid var(--deepcel-grid-strong) !important;
+  border-bottom-width: 0 !important;
+  border-radius: 0 !important;
+  background: var(--deepcel-sheet) !important;
+  line-height: var(--deepcel-row-height) !important;
+  overflow: hidden;
+}
+
+
+
+[data-deepcel-content-cell]:last-child {
+  border-bottom-width: 1px !important;
+}
+
+
+
+[data-deepcel-content-cell][data-deepcel-single-line] {
+  text-align: center;
+}
+
+
+
+li[data-deepcel-content-cell] {
+  display: list-item;
+  list-style-position: inside;
+  padding-left: 18px !important;
+}
+
+
+
+:is([class~='md-code-block'], [class*='tableScroll'])[data-deepcel-content-cell] {
+  overflow: auto;
+}
+
+
+
+img[data-deepcel-content-cell] {
+  object-fit: contain;
+}
+
+
+
+[data-sample='bash'][data-variant='bash'] + * > [data-deepcel-content-cell] {
+  grid-column: 2 / span 12;
+}
+
+
+
+[data-sample='bash'][data-variant='bash'] + * > [data-terminal][data-deepcel-content-cell] {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--deepcel-grid-strong) !important;
+}
+
+
+
+[data-sample='bash'][data-variant='bash'] + * > button[data-deepcel-content-cell] {
+  display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 4px;
-  height: 22px;
-  margin: 0;
-  padding: 0 6px;
-  overflow: hidden;
-  color: var(--deepcel-ink);
-  font: 400 11px/1 Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-  white-space: nowrap;
-  background: transparent;
-  border: 0;
-  border-radius: 2px;
-  cursor: default;
+  height: var(--deepcel-row-height);
+  padding: 0 8px !important;
+  overflow: visible;
+  border-radius: 0 !important;
+  opacity: 1;
 }
 
-.deepcelCmdLg {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  width: 52px;
-  min-width: 52px;
-  height: auto;
-  padding: 2px 4px;
-  gap: 2px;
-  text-align: center;
+
+
+[data-chat-flow-kind='turn-tail'] [data-produced-files-row] {
+  min-width: 0;
+  height: var(--deepcel-row-height);
+  line-height: var(--deepcel-row-height);
 }
 
-.deepcelCmd svg {
-  flex: 0 0 auto;
-  width: 15px;
-  height: 15px;
-}
 
-.deepcelCmdLg svg {
-  width: 28px;
-  height: 28px;
-}
 
-.deepcelCmd span {
-  overflow: hidden;
-  max-width: 76px;
-  text-overflow: ellipsis;
-}
-
-.deepcelCmdLg span {
-  max-width: 52px;
-  line-height: 1.15;
-  white-space: normal;
-}
-
-.deepcelCmd:hover {
-  background: var(--deepcel-green-soft);
-}
-
-.deepcelCmd[data-skin-control='new-workspace'],
-.deepcelCmd[data-skin-control='new-session'],
-.deepcelCmd[data-skin-control='settings'],
-.deepcelCmd[data-skin-control='addins'] {
-  cursor: pointer;
-}
-
-.deepcelCmd[data-skin-control='addins'] {
-  font-weight: 600;
-  color: var(--deepcel-green-dark);
-}
-
-/* ---------------------------------------------------------------------------
- * Formula row — name box + fx + input.
- * ------------------------------------------------------------------------- */
-.deepcelFormula {
+[data-chat-flow-kind='turn-tail'] [data-time-hover-root] > [class*='actions'][data-deepcel-content-cell] {
   display: flex;
   align-items: center;
-  height: 28px;
-  padding: 0 4px;
-  gap: 6px;
-  background: #fff;
-  border-bottom: 1px solid var(--deepcel-grid);
+  gap: 0;
+  height: var(--deepcel-row-height);
+  padding: 0 !important;
+  overflow: visible;
 }
 
-.deepcelNameCell {
-  flex: 0 0 auto;
-  width: 46px;
-  height: 22px;
-  padding: 0 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--deepcel-grid-strong);
-  background: #fafafa;
-  font-size: 11px;
-  color: var(--deepcel-ink);
-}
 
-.deepcelFx {
-  flex: 0 0 20px;
-  text-align: center;
-  font-style: italic;
-  font-weight: 600;
-  color: var(--deepcel-green-dark);
-}
 
-.deepcelFormulaInput {
-  flex: 1 1 auto;
-  height: 22px;
-  min-width: 0;
+[data-chat-flow-kind='turn-tail'] [data-time-hover-root] > [class*='actions'] > button[aria-label] {
+  width: auto;
+  min-width: max-content;
+  height: var(--deepcel-row-height);
   padding: 0 8px;
-  border: 1px solid var(--deepcel-grid-strong);
+  border-right: 1px solid var(--deepcel-grid) !important;
   border-radius: 0;
-  background: #fff;
-  color: var(--deepcel-ink);
-  font: 12px/22px Consolas, 'SFMono-Regular', monospace;
-  outline: none;
 }
 
-.deepcelFormulaInput:focus {
-  border-color: var(--deepcel-selection);
+
+
+[data-chat-flow-kind='turn-tail'] [data-time-hover-root] [role='tooltip'] {
+  z-index: 1000003;
+  width: max-content;
+  max-width: min(420px, 50vw);
+  padding: 3px 7px;
+  overflow: visible;
+  background: #252525 !important;
+  color: #fff !important;
+  white-space: pre-line;
 }
 
-/* ---------------------------------------------------------------------------
- * Sidebar toggle arrow — fixed at the top, under the chrome.
- * ------------------------------------------------------------------------- */
-.deepcelSidebarArrow {
-  position: fixed;
-  top: 30px;
-  left: 6px;
-  z-index: 1000001;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  border: 1px solid var(--deepcel-grid-strong);
-  background: #fff;
-  color: var(--deepcel-green-dark);
-  font: 600 12px/20px Aptos, Calibri, 'Segoe UI', sans-serif;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 3px;
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] {
+  display: grid !important;
+  grid-template-rows: minmax(calc(3 * var(--deepcel-row-height)), 1fr) var(--deepcel-row-height);
+  box-sizing: border-box;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  background: var(--deepcel-sheet) !important;
 }
 
-.deepcelSidebarArrow:hover {
-  background: var(--deepcel-green-soft);
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-deepcel-composer-range] :has(> [data-composer-card]) {
+  align-items: stretch !important;
+  box-sizing: border-box;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* ---------------------------------------------------------------------------
- * Native host content sits below the fixed chrome.
- * ------------------------------------------------------------------------- */
-html[data-dsh-skin='deepcel'] #root {
-  padding-top: var(--deepcel-chrome-height, 202px);
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] > [data-input-scroll] {
+  grid-row: 1;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0 !important;
+  border-bottom: 1px solid var(--deepcel-grid-strong);
+  background: var(--deepcel-sheet);
 }
 
-/* ---------------------------------------------------------------------------
- * Composer: keep its crowded tool chips out of the way of the ribbon.
- * ------------------------------------------------------------------------- */
-html[data-dsh-skin='deepcel'] [data-phase='hero'] [class*='composerStack'] [class*='tools'],
-html[data-dsh-skin='deepcel'] [data-phase='hero'] [class*='composerStack'] [class*='modes'],
-html[data-dsh-skin='deepcel'] [data-phase='hero'] [class*='composerStack'] [class*='seat'] {
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] [data-input-backdrop],
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] textarea,
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] [data-input-mirror] {
+  padding: 0 6px !important;
+  font-size: 14px;
+  line-height: var(--deepcel-row-height);
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] > [class*='row'] {
+  grid-row: 2;
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--deepcel-row-height);
+  min-height: var(--deepcel-row-height);
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] :is([class*='tools'], [class*='modes'], [class*='trailing']) {
+  align-items: stretch;
+  height: var(--deepcel-row-height);
+  gap: 0 !important;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] [class*='tools'] {
+  flex: 1 1 auto;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] [class*='trailing'] {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] :is(button, select, [role='button']):not([role='menuitem']) {
+  box-sizing: border-box;
+  min-width: var(--deepcel-cell-width);
+  height: var(--deepcel-row-height);
+  min-height: var(--deepcel-row-height);
+  margin: 0 !important;
+  padding: 0 6px !important;
+  border: 0 !important;
+  border-right: 1px solid var(--deepcel-grid) !important;
+  background: var(--deepcel-sheet) !important;
+  color: var(--deepcel-ink) !important;
+  font: 11px/var(--deepcel-row-height) Aptos, Calibri, 'Segoe UI', sans-serif;
+  transform: none !important;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] [class*='modes'] :is(button, select, [role='button']) {
+  width: calc(2 * var(--deepcel-cell-width));
+  max-width: calc(2 * var(--deepcel-cell-width));
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] [class*='trailing'] :is(button, select, [role='button']) {
+  width: calc(2 * var(--deepcel-cell-width));
+  max-width: calc(2 * var(--deepcel-cell-width));
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] [class*='trailing'] > button:last-child {
+  width: var(--deepcel-cell-width);
+  min-width: var(--deepcel-cell-width);
+  color: #fff !important;
+  background: var(--deepcel-green) !important;
+}
+
+
+
+[data-phase='active'] [data-deepcel-workbook-flow] [data-composer-card] button[aria-haspopup='dialog'] {
+  width: var(--deepcel-cell-width);
+  min-width: var(--deepcel-cell-width);
+}
+
+
+
+[data-deepcel-stats-source] {
   display: none !important;
 }
 
-/* ---------------------------------------------------------------------------
- * Worksheet grid: painted visual layer behind the native content.
- * ------------------------------------------------------------------------- */
-.deepcelGrid {
-  position: fixed;
-  top: var(--deepcel-chrome-height, 202px);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;               /* above backgrounds, below native content (root z) */
-  pointer-events: none;     /* let native content scroll/click through */
-  background: #fff;
-  overflow: hidden;
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [class*='composerStack'] {
+  position: absolute !important;
+  top: 0;
+  left: calc(var(--deepcel-row-gutter) + var(--deepcel-composer-x, 0px));
+  transform: none;
+  box-sizing: border-box;
+  width: 540px !important;
+  height: 240px !important;
+  max-width: none !important;
+  padding: 0 !important;
+  gap: 0 !important;
 }
 
-.deepcelGrid .deepcelCorner {
-  background: var(--deepcel-header);
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [class*='headline']:has(> [class*='headlineText']) {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  z-index: 3;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 60px 300px 60px;
+  align-items: center;
+  width: 420px;
+  height: 24px;
+  column-gap: 0;
+  border-top: 1px solid var(--deepcel-grid-strong);
   border-right: 1px solid var(--deepcel-grid-strong);
   border-bottom: 1px solid var(--deepcel-grid-strong);
-  box-sizing: border-box;
+  border-left: 1px solid var(--deepcel-grid-strong);
+  background: var(--deepcel-sheet);
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 400;
+  overflow: hidden;
+  pointer-events: auto;
 }
 
-.deepcelGridHeader {
-  box-sizing: border-box;
-  background: var(--deepcel-header);
-  border-right: 1px solid var(--deepcel-grid);
-  border-bottom: 1px solid var(--deepcel-grid);
-  font: 11px/20px Aptos, Calibri, 'Segoe UI', 'Microsoft YaHei', sans-serif;
-  color: var(--deepcel-muted);
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [class*='headlineText'] {
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--deepcel-sheet);
+  color: var(--deepcel-ink);
+  cursor: text;
   text-align: center;
+  text-overflow: ellipsis;
+  user-select: text;
+  white-space: nowrap;
 }
 
-.deepcelGridBody {
-  display: grid;
-  background: #fff;
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [class*='previewBadge'] {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--deepcel-grid);
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 0;
+  background: var(--deepcel-sheet);
+  font-size: 12px;
+  line-height: 23px;
 }
 
-.deepcelGridBody .deepcelCell {
+
+
+tr[data-trajectory-row-key]:hover > td:last-child {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+
+
+tr[data-trajectory-row-key][data-selected='true'] > td:last-child {
+  background: var(--deepcel-highlight-solid);
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [class*='heroWorkspaceRow'] {
+  position: absolute;
+  top: 48px;
+  left: 0;
   box-sizing: border-box;
-  background: #fff;
-  border-right: 1px solid var(--deepcel-grid);
-  border-bottom: 1px solid var(--deepcel-grid);
+  width: 540px !important;
+  height: 24px;
+  padding: 0 !important;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [class*='heroWorkspaceRow'] > button {
+  box-sizing: border-box;
+  width: 60px;
+  height: 24px;
+  min-height: 24px;
+  padding: 0 5px !important;
+  border: 1px solid var(--deepcel-grid-strong) !important;
+  background: var(--deepcel-sheet) !important;
+  font-size: 11px;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] :has(> [data-composer-card]) {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  box-sizing: border-box;
+  width: 540px !important;
+  height: 168px !important;
+  padding: 0 !important;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] {
+  display: grid !important;
+  grid-template-rows: 144px 24px;
+  box-sizing: border-box;
+  width: 540px !important;
+  height: 168px !important;
+  min-height: 168px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] > [class*='scroll'] {
+  grid-row: 1;
+  min-height: 0;
+  padding: 0 !important;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] [class*='grow'] {
+  height: 100%;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100% !important;
+  padding: 0 5px !important;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] > [class*='row'] {
+  position: absolute;
+  left: -2px;
+  bottom: -2px;
+  grid-row: 2;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: 540px;
+  height: 24px;
+  min-height: 24px;
+  padding: 0 !important;
+  border-top: 1px solid var(--deepcel-grid-strong);
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] :is([class*='tools'], [class*='trailing']) {
+  align-items: stretch;
+  height: 23px;
+  gap: 0;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] [class*='trailing'] {
+  margin-left: auto;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] :is(button, [role='button']):not([role='menuitem']) {
+  box-sizing: border-box;
+  min-width: 60px;
+  width: auto;
+  height: 23px;
+  min-height: 23px;
+  padding: 0 5px !important;
+  border: 0 !important;
+  border-right: 1px solid var(--deepcel-grid) !important;
+  background: color-mix(in srgb, var(--deepcel-sheet) 94%, transparent) !important;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] [class*='trailing'] > button:last-child {
+  color: #fff !important;
+  background: var(--deepcel-green) !important;
+}
+
+
+
+body[data-deepcel-chrome] [data-phase='hero'] [data-composer-card] [class*='modes'] button:not([role='menuitem']) > span,
+[data-phase='hero'] [data-composer-card] [class*='trailing'] button[aria-haspopup='menu']:not([role='menuitem']) > span {
+  display: none !important;
+}
+
+
+
+[data-composer-card] [role='menu'] [role='menuitem'] > span {
+  display: inline-flex !important;
+}
+
+
+
+[class*='userRow'] [class*='bubble'] {
+  position: relative;
+  box-sizing: border-box;
+  width: min(420px, 100%);
+  max-width: 100%;
+  padding: 29px 12px 8px !important;
+  border: 1px solid color-mix(in srgb, var(--deepcel-comment-accent) 52%, var(--deepcel-grid-strong)) !important;
+  border-left: 4px solid var(--deepcel-comment-accent) !important;
+  background: var(--deepcel-comment-fill) !important;
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--deepcel-grid-strong) 44%, transparent) !important;
+}
+
+
+
+:is([data-state='running'], [data-status='running']) {
+  background-image: linear-gradient(transparent 42%, var(--deepcel-highlight) 42%, var(--deepcel-highlight) 86%, transparent 86%) !important;
+}
+
+
+
+:is(pre, code, [data-terminal]) {
+  font-variant-numeric: tabular-nums;
+}
+
+
+
+:is([class*='_overlay'], [class*='_root']):has(> [role='dialog']) > [class*='_mask'] {
+  display: none !important;
+}
+
+
+
+[role='dialog'] {
+  margin: 0 !important;
+  border: 1px solid var(--deepcel-grid-strong) !important;
+  border-top: 2px solid var(--deepcel-selection) !important;
+  background: var(--deepcel-sheet) !important;
+  box-shadow: none !important;
+}
+
+
+
+[class*='_panel'][role='dialog'] {
+  width: min(720px, calc(100vw - var(--deepcel-sheet-origin) - 120px)) !important;
+  height: min(672px, calc(100vh - var(--deepcel-ribbon-height) - 76px)) !important;
+  max-width: none !important;
+}
+
+
+
+[class*='_panel'][role='dialog'] [class*='_nav'] {
+  width: 180px !important;
+  padding: 24px 0 0 !important;
+  border-right: 1px solid var(--deepcel-grid-strong);
+}
+
+
+
+[class*='_panel'][role='dialog'] [class*='_navCell'] {
+  height: 48px !important;
+  padding: 0 10px !important;
+  border-bottom: 1px solid var(--deepcel-grid) !important;
+}
+
+
+
+[class*='_panel'][role='dialog'] [class*='_header'] {
+  height: 48px !important;
+  padding: 12px 10px !important;
+  border-bottom: 1px solid var(--deepcel-grid-strong);
+}
+
+
+
+[class*='_dialog'][role='dialog'] {
+  width: min(540px, calc(100vw - var(--deepcel-sheet-origin) - 120px)) !important;
+  max-height: calc(100vh - var(--deepcel-ribbon-height) - 76px) !important;
+  padding-bottom: 24px !important;
+  gap: 0 !important;
+}
+
+
+
+[class*='_dialog'][role='dialog'] [class*='_header'] {
+  box-sizing: border-box;
+  height: 48px;
+  padding: 12px 10px !important;
+  border-bottom: 1px solid var(--deepcel-grid-strong);
+}
+
+
+
+[class*='_dialog'][role='dialog'] [class*='_body'] {
+  margin-top: 0 !important;
+  padding: 24px 60px 0 !important;
+}
+
+
+
+:is([role='menuitem'], [role='option'], [role='menuitemradio'], [role='menuitemcheckbox']) {
+  min-height: 25px;
+  border-bottom: 1px solid var(--deepcel-grid) !important;
+}
+
+
+
+:is([role='menuitem'], [role='option'], [role='menuitemradio'], [role='menuitemcheckbox']):hover {
+  background: var(--deepcel-highlight-solid) !important;
+  color: var(--deepcel-ink) !important;
+}
+
+
+
+:is(select, button[aria-haspopup='menu'], button[aria-haspopup='listbox']) {
+  border: 1px solid var(--deepcel-grid-strong) !important;
+  background: var(--deepcel-header) !important;
+  color: var(--deepcel-ink) !important;
+}
+
+
+
+:is([data-pane='sidebar'], [class*='sidebarCol'])
+  [class*='search']
+  > input[class*='searchInput'] {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+
+
+:is([data-pane='sidebar'], [class*='sidebarCol'])
+  [class*='search'][class*='searchExpanded'] {
+  border: 1px solid var(--deepcel-grid-strong) !important;
+  background: var(--deepcel-sheet) !important;
+}
+
+
+
+:is(button, [role='button']):focus-visible {
+  outline: 2px solid var(--deepcel-selection) !important;
+  outline-offset: -1px !important;
+}
+
+
+
+[class*='titlebar'] {
+  display: none !important;
+}
+
+
+
+#root [data-phase] [data-composer-card] {
+  position: fixed !important;
+  inset: 0 auto auto 0 !important;
+  z-index: 1000002 !important;
+  display: block !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+
+
+#root [data-phase] [data-composer-card] * {
+  visibility: hidden !important;
+}
+
+
+
+#root [data-phase] textarea[data-deepcel-formula-input] {
+  position: fixed !important;
+  inset: 89px 0 auto 106px !important;
+  z-index: 1000002 !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  width: auto !important;
+  height: var(--deepcel-formula-height) !important;
+  min-height: var(--deepcel-formula-height) !important;
+  max-height: var(--deepcel-formula-height) !important;
+  margin: 0 !important;
+  padding: 5px 10px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  visibility: visible !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--deepcel-grid-strong) !important;
+  background: var(--deepcel-sheet) !important;
+  color: var(--deepcel-ink) !important;
+  -webkit-text-fill-color: var(--deepcel-ink) !important;
+  caret-color: var(--deepcel-selection) !important;
+  font: 12px/18px Consolas, monospace !important;
+  resize: none !important;
+  pointer-events: auto !important;
+  cursor: text !important;
+  opacity: 1 !important;
 }

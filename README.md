@@ -1,119 +1,62 @@
-# Deepcel · Excel 风格工作簿皮肤
+# Deepcel 工作簿 · v2 皮肤
 
-> 把 DeepSeek Harness WebUI 变成一张 **可识别、好用** 的 Excel 电子表。
-> 为 dsh 皮肤中心 v2（skin-center v2）打造的资产皮肤，经 `skin.json` + `hooks.mjs` 加载，
-> 在原 cordis 皮肤基础上**完全重构**——保留 Excel 观感，同时让侧栏、设置、会话、输入都真正可用。
+`Small-tailqwq/dsh-deepcel` 的 **v2 skin 资产目录**重写。v1 是一个 cordis 客户端插件（`src/client/index.ts` + CSS Modules + `skin.json` v1 清单）；v2 按 `@linxin666/dsh-client-ui-skin-center` 的 skin-manifest-v2 契约重写为纯资产目录，由 skin-center 作为唯一加载器/渲染器。
 
-![preview](preview/light.webp)
-
----
-
-## ✨ 特性
-
-### 顶部 Excel 功能区（Ribbon）
-- **九大标签**：文件 · 开始 · 插入 · 页面布局 · 公式 · 数据 · 审阅 · 视图 · 帮助
-- **按标签切换的多组图标命令**：开始页渲染 剪贴板 / 字体 / 对齐方式 / 数字 / 样式 / 单元格 / 编辑 / 加载项 等分组，组名在底部
-- 每组是「大命令 + 小命令堆叠」的 Excel 式布局，命令区约 96px，横向可滚动、**绝不换行挤爆**
-- 图标为内联 SVG（`currentColor` 着色），不依赖图标库
-
-### 公式栏（Formula Bar）
-- `[名称框] · fx · [输入框]` 三段式公式栏，输入框**内嵌在 fx 之后**，对齐原生公式栏语义
-- 输入框聚焦有绿色高亮边框
-
-### 工作表网格（Grid）
-- 工作表区以**单元格网格 + 行号 + 列头**呈现，A/B/C… 列、1/2/3… 行的 Excel 背景
-- 网格为视觉层（`pointer-events: none`），原生内容可自由滚动、点击、交互
-
-### 真正可用的功能
-- **小箭头侧栏开关**（左上 `▶`/`◀`）：一键开合 DeepSeek 原生侧边栏
-- **设置**：文件标签下的「设置」按钮，打开原生设置面板
-- **新会话 / 新工作区**：文件标签下的一键入口，调用原生行为
-- **加载项 · 退出**：一键返回 DeepSeek 官方默认皮肤
-
-### 主题
-- Excel 绿主题（`#217346`），标题栏绿色、活动标签白色、分组浅绿高亮
-- 深色 / 浅色预览图
-
----
-
-## 🚀 安装
-
-### 皮肤中心方式（推荐）
-1. 打开 dsh 的 **皮肤中心**（设置 → 皮肤/皮肤中心）
-2. 选择 **Deepcel 工作簿**，点击「应用」
-3. 刷新页面即可看到 Excel 式界面
-
-### 手动放置
-把本仓库的皮肤文件放入皮肤目录：
-
-```bash
-# Linux / macOS
-mkdir -p ~/.dsh/skins/deepcel
-cp skin.json skin.css patches.css hooks.mjs {preview}/*.webp ~/.dsh/skins/deepcel/
-
-# Windows
-mkdir %USERPROFILE%\.dsh\skins\deepcel
-copy skin.json skin.css patches.css hooks.mjs %USERPROFILE%\.dsh\skins\deepcel\
-```
-
-然后确认皮肤中心 `active` 指向 `deepcel`：
-
-```bash
-curl -X POST http://127.0.0.1:3080/api/skin-center/v2/active \
-  -H 'content-type: application/json' -d '{"active":"deepcel"}'
-```
-
-刷新页面，`<html>` 会带有 `data-dsh-skin="deepcel"` 并注入皮肤 CSS。
-
----
-
-## 🖱 使用说明
-
-| 元素 | 位置 | 作用 |
-| --- | --- | --- |
-| 标签页 | 功能区顶部 | 切换不同功能组 |
-| 功能组按钮 | 标签下方 96px 条 | Excel 命令（装饰），悬停有浅绿高亮 |
-| 公式栏 | 功能区下方 | `[B4] · fx · 输入框` |
-| 侧栏箭头 `▶`/`◀` | 左上 | 开合原生侧边栏 |
-| 设置 | 文件 → 设置 | 打开原生设置 |
-| 新会话 / 新工作区 | 文件 | 创建会话 / 工作区 |
-| 加载项 · 退出 | 每个标签末尾 | 返回官方默认皮肤 |
-
-> 功能区的「命令」按钮为 Excel 观感装饰（保留 hover 反馈），真正的工作流由
-> 侧栏、设置、会话、输入框等原生能力承载——**像 Excel，且好用**。
-
----
-
-## 🧩 文件结构
+## 目录
 
 ```
 dsh-deepexcel/
-├── skin.json          # 皮肤中心 v2 清单 (skinManifestVersion: 2)
-├── skin.css           # 设计 token + 基础重置
-├── patches.css        # Excel chrome 布局样式（强制作用域到 html[data-dsh-skin=deepcel]）
-├── hooks.mjs          # 皮肤中心 hooks：构建 chrome / 网格 / 公式栏 / 侧栏开关
-├── preview/
-│   ├── light.webp     # 浅色预览
-│   └── dark.webp      # 深色预览
-├── README.md
-├── LICENSE            # BSD-3-Clause
-└── docs/              # GitHub Pages 预览
+├── skin.json              # v2 清单（skinManifestVersion: 2）
+├── skin.css               # L1 token + L2 语义样式（工作簿 chrome、工作区网格、坐标）
+├── patches.css            # L3 自由选择器补丁（原生面板/菜单/对话框/消息改造成单元格）
+├── hooks.mjs              # facets.client 逃生舱（v1 客户端 JS 移植，defineSkinHooks）
+├── dsh-market.provenance.json  # 市场安装 provenance（sha256 固定运行时文件）
+├── preview/               # light.webp / dark.webp 预览图
+├── docs/                  # GitHub Pages 预览页（jensen-yao.github.io/dsh-deepexcel）
+├── README.md / LICENSE / NOTICE
 ```
 
----
+> 仓库根即皮肤目录：把本仓库文件放入 `$DSH_HOME/skins/deepcel/`（`skin.json` 的 `id: deepcel` 必须等于目录名），或在皮肤中心安装本皮肤。
 
-## 🔧 皮肤中心契约
+## v1 → v2 改动要点
 
-- `skin.json`：`contributes.stylesheet` → `skin.css`，`contributes.patches` → `patches.css`，
-  `facets.client.entry` → `hooks.mjs`，`apiVersion` = `x-org.linxin666.skin-center/v1alpha1`
-- `hooks.mjs`：`export default defineSkinHooks()` 返回 `{ apply(ctx) }`；`ctx.onCleanup` 负责卸载
-- CSS 由皮肤中心强制作用域到 `html[data-dsh-skin="deepcel"]`，无需担心污染全局
-- `dsh-market.provenance.json`：记录运行时文件的 sha256，用于 `canServeSkinHooks` 信任校验
+| v1 | v2 |
+| --- | --- |
+| cordis 插件 + `apply(ctx)` + `ctx.effect` | `defineSkinHooks()` 默认导出，`apply(ctx)` + `ctx.onCleanup`（幂等） |
+| `inject: ['locale', 'layout', 'sessions']` 服务注入 | 无服务注入；locale 读 `document.documentElement.lang`（MutationObserver 监听），侧边栏点击原生按钮，会话跟踪选中的原生会话行 |
+| CSS Modules（`cls('workbookChrome')` 哈希类名） | 明文类名（`.workbookChrome` 等），加载器在 `html[data-dsh-skin="deepcel"]` 下强制作用域 |
+| `body[data-dsh-deepcel]` 作用域 + `:global(#root)` | 全部选择器去掉 v1 前缀，由加载器重写为 `html[data-dsh-skin="deepcel"] …`；`:global(#root)` → `#root` |
+| 亮/暗 token 写在 `body[data-dsh-deepcel]` / `[data-ds-dark-theme]` | token 写在 `:root`（亮）与 `body[data-ds-dark-theme]`（暗），加载器自动克隆 root-body token |
+| v1 字段 `package` / `wiring` / `bodyAttr` | 移除（v2 fail-closed，遗留字段仅告警） |
+| `--dsw-alias-*` 全量 remap + `--deepcel-*` 布局变量 | 保留，新增 `--dsw-alias-label-primary-foreground: #fff` 满足主按钮对比度契约 |
 
----
+## hooks 信任模型（重要）
 
-## 📄 许可
+skin-center 的安全模型：**用户目录直接放置的皮肤（`$DSH_HOME/skins/<id>/`）不运行 hooks**——`GET /skins/<id>/hooks.mjs` 返回 403，除非该皮肤与官方市场字节级一致（provenance）。因此：
 
-[BSD-3-Clause](LICENSE)。原皮肤来自 [Small-tailqwq/dsh-deepcel](https://github.com/Small-tailqwq/dsh-deepcel)。
+- 本目录以**用户皮肤**方式安装时：`skin.css` / `patches.css` / preview 全部生效（绿色工作簿主题、单元格边框、BOOK/ROW 标签、菜单改造成 Filter 下拉等），但 **hooks 不运行**，工作簿 chrome（功能区、公式栏、行列坐标、工作表标签、选区）不渲染。
+- 若要完整工作簿体验，需将本皮肤作为 **builtin** 安装进 skin-center 包：
 
-由 **Jensen-Yao** 重构为 v2 资产皮肤。
+```sh
+# 1) 复制皮肤目录进 skin-center 内置 skins/
+cp -r <此目录> "<harnessHome>/profiles/web/node_modules/@linxin666/dsh-client-ui-skin-center/skins/deepcel"
+# 2) 把 "skins/deepcel" 追加到该包 package.json 的 files 白名单
+#    （shippedSkinIds 据此把 deepcel 列入目录，origin=builtin → hooks 放行）
+# 3) 重启 dsh web（shippedSet 在插件挂载时冻结，需重启才能重新读取白名单）
+```
+
+## 布局降级
+
+v2 加载器会注入一条 viewport-lock 规则，强制 `html[data-dsh-skin] body { padding: 0 !important }`。因此 v1 的 body padding 方案不可用：
+
+- 功能区的固定偏移改由 `body[data-deepcel-chrome] #root { padding: … }` 承载；
+- 所有几何/位移规则（hero 布局、侧边栏折叠、工作簿流网格）都挂在 hooks 设置的 `body[data-deepcel-chrome]` 标记后，**仅当 hooks 运行时**才改变原生布局；
+- hooks 被拒（仅声明式生效）时，页面保持原生几何，只叠加 token/补丁外观。
+
+## 验证
+
+- `GET /api/skin-center/v2/catalog` → 出现 `origin: user, id: deepcel`（仅剩一条 hooks-refused 预期告警）
+- `GET /api/skin-center/v2/skins/deepcel/stylesheet|patches` → 200，选择器全部强制作用域
+- `POST /api/skin-center/v2/active {"active":"deepcel"}` → 应用成功，`html[data-dsh-skin="deepcel"]` 生效
+
+许可与商标：沿用上游 BSD-3-Clause 与 NOTICE 声明（Deepcel 独立社区项目，与 Microsoft 无隶属关系）。
