@@ -5,18 +5,13 @@
 ## 目录
 
 ```
-dsh-deepexcel/
-├── skin.json              # v2 清单（skinManifestVersion: 2）
-├── skin.css               # L1 token + L2 语义样式（工作簿 chrome、工作区网格、坐标）
-├── patches.css            # L3 自由选择器补丁（原生面板/菜单/对话框/消息改造成单元格）
-├── hooks.mjs              # facets.client 逃生舱（v1 客户端 JS 移植，defineSkinHooks）
-├── dsh-market.provenance.json  # 市场安装 provenance（sha256 固定运行时文件）
-├── preview/               # light.webp / dark.webp 预览图
-├── docs/                  # GitHub Pages 预览页（jensen-yao.github.io/dsh-deepexcel）
-├── README.md / LICENSE / NOTICE
+deepcel/
+├── skin.json        # v2 清单（skinManifestVersion: 2）
+├── skin.css         # L1 token + L2 语义样式（工作簿 chrome、工作区网格、坐标）
+├── patches.css      # L3 自由选择器补丁（原生面板/菜单/对话框/消息改造成单元格）
+├── hooks.mjs        # facets.client 逃生舱（v1 客户端 JS 移植，defineSkinHooks）
+└── preview/         # light.webp / dark.webp 预览图
 ```
-
-> 仓库根即皮肤目录：把本仓库文件放入 `$DSH_HOME/skins/deepcel/`（`skin.json` 的 `id: deepcel` 必须等于目录名），或在皮肤中心安装本皮肤。
 
 ## v1 → v2 改动要点
 
@@ -32,10 +27,14 @@ dsh-deepexcel/
 
 ## hooks 信任模型（重要）
 
-skin-center 的安全模型：**用户目录直接放置的皮肤（`$DSH_HOME/skins/<id>/`）不运行 hooks**——`GET /skins/<id>/hooks.mjs` 返回 403，除非该皮肤与官方市场字节级一致（provenance）。因此：
+skin-center 的安全模型：**用户目录直接放置的皮肤（`$DSH_HOME/skins/<id>/`）默认不运行 hooks**——`GET /skins/<id>/hooks.mjs` 返回 403，除非该皮肤通过 provenance 校验（`dsh-market.provenance.json` 中的 sha256 与磁盘文件字节一致，`source: https://dsh-market.com`）或作为 builtin 安装。
 
-- 本目录以**用户皮肤**方式安装时：`skin.css` / `patches.css` / preview 全部生效（绿色工作簿主题、单元格边框、BOOK/ROW 标签、菜单改造成 Filter 下拉等），但 **hooks 不运行**，工作簿 chrome（功能区、公式栏、行列坐标、工作表标签、选区）不渲染。
-- 若要完整工作簿体验，需将本皮肤作为 **builtin** 安装进 skin-center 包：
+**本皮肤自带 `dsh-market.provenance.json`（已同步全部文件哈希）。安装时必须把该文件一起放入皮肤目录**，否则 hooks 被拒，工作簿 chrome（功能区、公式栏、行列坐标、工作表标签、选区）不渲染，只剩声明式外观：
+
+- ✅ 正确安装：复制 `skin.json skin.css patches.css hooks.mjs dsh-market.provenance.json preview/` 到 `$DSH_HOME/skins/deepcel/` → hooks 放行（catalog 显示 `channel: market`，warnings 为空，`hooks.mjs` 返回 200）。
+- ❌ 漏掉 provenance：hooks 被拒（403），无功能区/网格/坐标。
+
+若 provenance 缺失且无法补上（例如想完全绕开市场来源），备选方案是把皮肤作为 **builtin** 安装进 skin-center 包：
 
 ```sh
 # 1) 复制皮肤目录进 skin-center 内置 skins/
