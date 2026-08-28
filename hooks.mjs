@@ -50,16 +50,11 @@ export default function defineSkinHooks() {
         '[data-terminal]', '[data-variant="think"]', '[class*="actions"]', '[class*="stopped"]',
       ].join(', ')
 
-      // Sidebar toggles are intentionally NOT concealed: the native
-      // expand/collapse controls (top-right and sidebar header) stay usable so
-      // the user can always open the sidebar and the panel toggles. Only the
-      // redundant duplicated entries (new session / new workspace / settings)
-      // are proxied into the workbook chrome.
-      const NATIVE_ENTRY_SPECS = [
-        { labels: [], ariaLabels: ['新建会话', 'New session'] },
-        { labels: [], ariaLabels: ['添加工作区', 'Add workspace'] },
-        { labels: ['设置', 'Settings'], ariaLabels: ['设置', 'Settings'] },
-      ]
+      // All native entrypoints stay visible and clickable — the skin adds its
+      // own workbook chrome but never hides the host's own controls (sidebar
+      // tools, new session/workspace, settings, panel toggles). The workbook
+      // ribbon buttons are extra shortcuts, not replacements.
+      const NATIVE_ENTRY_SPECS = []
 
       // plain class names matching skin.css / patches.css
       const cls = (name) => name
@@ -128,6 +123,39 @@ export default function defineSkinHooks() {
       function toggleSidebar() {
         const toggle = nativeSidebarToggle()
         if (toggle !== undefined) toggle.click()
+      }
+
+      /** Click the native bottom-panel toggle (expand/collapse) by aria-label. */
+      function toggleBottomPanel() {
+        const btn = [...document.querySelectorAll('button:not([data-skin-control])')]
+          .find((b) => ['展开底部面板', '收起底部面板', '折叠底部面板', 'Expand bottom panel', 'Collapse bottom panel'].includes(b.getAttribute('aria-label') ?? ''))
+        btn?.click()
+      }
+
+      /** Toggle the native details (right column) panel.
+       *  The shell drives it through the frame's grid track and the
+       *  data-details-collapsed attribute; when the native "close details"
+       *  button exists the panel is open and we click it to close, otherwise
+       *  we expand the track directly. */
+      function toggleDetailsPanel() {
+        const detailsCol = document.querySelector("[class*='detailsCol']")
+        const frame = detailsCol?.parentElement
+        const open = frame !== null && frame !== undefined && !frame.hasAttribute('data-details-collapsed')
+        if (open) {
+          const btn = [...document.querySelectorAll('button:not([data-skin-control])')]
+            .find((b) => ['关闭详情', 'Close details'].includes(b.getAttribute('aria-label') ?? ''))
+          if (btn !== undefined) { btn.click(); return }
+          if (frame !== undefined) {
+            frame.setAttribute('data-details-collapsed', '')
+            const cols = (frame.style.gridTemplateColumns || '').trim().split(/\s+/)
+            if (cols.length === 3) frame.style.gridTemplateColumns = `${cols[0]} ${cols[1]} 0px`
+          }
+          return
+        }
+        if (frame === null || frame === undefined) return
+        frame.removeAttribute('data-details-collapsed')
+        const cols = (frame.style.gridTemplateColumns || '').trim().split(/\s+/)
+        if (cols.length === 3) frame.style.gridTemplateColumns = `${cols[0]} ${cols[1]} 360px`
       }
 
       function nativeSettingsTrigger() {
@@ -961,6 +989,14 @@ export default function defineSkinHooks() {
         footer.dataset.skinChrome = 'status'
         const sidebar = makeControl('sheetNavCell', 'sidebar')
         sidebar.addEventListener('click', toggleSidebar)
+        const bottomPanel = makeControl('statusCell', 'bottom-panel')
+        bottomPanel.textContent = '面板'
+        bottomPanel.title = '打开/收起底部面板'
+        bottomPanel.addEventListener('click', toggleBottomPanel)
+        const details = makeControl('statusCell', 'details-panel')
+        details.textContent = '详情'
+        details.title = '打开/收起右侧详情'
+        details.addEventListener('click', toggleDetailsPanel)
         const workbookTabs = document.createElement('div')
         workbookTabs.className = cls('workbookTabs')
         workbookTabs.setAttribute('role', 'tablist')
@@ -971,6 +1007,8 @@ export default function defineSkinHooks() {
         statistics.dataset.statisticsStatus = ''
         footer.append(
           sidebar,
+          bottomPanel,
+          details,
           workbookTabs,
           addWorkbook,
           makeCell('statusSpacer', ''),
