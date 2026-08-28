@@ -58,7 +58,7 @@
         <div class="card"><h3>单元格化消息</h3><p>对话正文按语义块映射为合并单元格；用户消息使用审阅批注样式</p></div>
         <div class="card"><h3>工作表网格</h3><p>A/B/C 列 + 1/2/3 行，真实单元格矩阵与选区，滚动与行号同步</p></div>
         <div class="card"><h3>工作簿标签</h3><p>底部 sheet 标签承载多会话切换，可新建 / 关闭工作簿</p></div>
-        <div class="card"><h3>侧栏联动</h3><p>侧边栏展开时整张工作表同步移动，坐标原点保持一致</p></div>
+        <div class="card"><h3>面板控制</h3><p>状态栏「面板」「详情」按钮开合底部面板与右栏；侧栏工具、设置等原生入口全部保留可点</p></div>
         <div class="card"><h3>原生行为复用</h3><p>权限 / 模型 / 思考 / Agent 预设 / 工作区复用原生入口，菜单伪装成筛选下拉</p></div>
       </div>
 
@@ -66,11 +66,11 @@
       <div class="install">
         <p>在 dsh <strong>皮肤中心</strong>选择「Deepcel 工作簿」→ 应用 → 刷新。或手动放置到皮肤目录：</p>
         <pre><code>mkdir -p ~/.dsh/skins/deepcel
-cp skin.json skin.css patches.css hooks.mjs {preview}/*.webp ~/.dsh/skins/deepcel/
+cp skin.json skin.css patches.css hooks.mjs dsh-market.provenance.json {preview}/*.webp ~/.dsh/skins/deepcel/
 
 curl -X POST http://127.0.0.1:3080/api/skin-center/v2/active \
   -H 'content-type: application/json' -d '{"active":"deepcel"}'</code></pre>
-        <p style="margin-top:10px">提示：皮肤中心对用户目录直接放置的皮肤拒绝运行 hooks（信任模型）。完整工作簿 chrome 需要把皮肤作为 <strong>builtin</strong> 安装进 skin-center 包并重启一次，详见 <code>README.md</code>。</p>
+        <p style="margin-top:10px">提示：<code>dsh-market.provenance.json</code> 必须一并复制——皮肤中心据此信任 hooks（否则工作簿 chrome 不渲染）。</p>
       </div>
     </main>
 

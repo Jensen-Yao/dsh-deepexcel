@@ -52,10 +52,16 @@ v2 加载器会注入一条 viewport-lock 规则，强制 `html[data-dsh-skin] b
 - 所有几何/位移规则（hero 布局、侧边栏折叠、工作簿流网格）都挂在 hooks 设置的 `body[data-deepcel-chrome]` 标记后，**仅当 hooks 运行时**才改变原生布局；
 - hooks 被拒（仅声明式生效）时，页面保持原生几何，只叠加 token/补丁外观。
 
+## 原生控件可用性
+
+- 右上角原生面板开关（底部面板 / 侧栏 / 详情）保持可点：`titleRow` 仅 `headerControls` 接收点击，其余区域指针穿透给原生控件，不被工作簿 chrome 遮挡。
+- 侧栏开关**不隐藏**（原生「展开/收起侧边栏」与状态栏 `<` 按钮共存），侧栏工具完整保留。
+- 新会话 / 新工作区 / 设置由工作簿功能区代理，原生重复入口通过 `data-deepcel-native-proxy` 隐藏。
+
 ## 验证
 
-- `GET /api/skin-center/v2/catalog` → 出现 `origin: user, id: deepcel`（仅剩一条 hooks-refused 预期告警）
-- `GET /api/skin-center/v2/skins/deepcel/stylesheet|patches` → 200，选择器全部强制作用域
-- `POST /api/skin-center/v2/active {"active":"deepcel"}` → 应用成功，`html[data-dsh-skin="deepcel"]` 生效
+- `GET /api/skin-center/v2/catalog` → 出现 `origin: user, channel: market, id: deepcel`（warnings 为空）
+- `GET /api/skin-center/v2/skins/deepcel/stylesheet|patches|hooks.mjs` → 200
+- `POST /api/skin-center/v2/active {"active":"deepcel"}` → 应用成功，`html[data-dsh-skin="deepcel"]` 生效，工作簿 chrome / 侧栏 / 面板开关全部可用
 
 许可与商标：沿用上游 BSD-3-Clause 与 NOTICE 声明（Deepcel 独立社区项目，与 Microsoft 无隶属关系）。
